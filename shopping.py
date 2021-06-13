@@ -6,10 +6,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 TEST_SIZE = 0.4
-
-
+import pandas as pd
 def main():
-
+    data = pd.read_csv('shopping.csv')
     # Load data and split into train and test sets
     evidence, labels = load_data("shopping.csv")
     X_train, X_test, y_train, y_test = train_test_split(
@@ -27,7 +26,21 @@ def main():
     print(f"Incorrect: {(y_test != predictions).sum()}")
     print(f"True Positive Rate: {100 * sensitivity:.2f}%")
     print(f"True Negative Rate: {100 * specificity:.2f}%")
+    count_weekend_revenue=0
+    count_weekend=0
+    count_revenue=0
 
+    for rowIndex, row in data.iterrows():  # iterate over rows
+        if row['Weekend'] and row['Revenue']:
+            count_weekend_revenue+=1
+        if row['Weekend'] :
+            count_weekend += 1
+        if row['Revenue'] :
+            count_revenue += 1
+    print("amount of people on the weekend and revenue : " + str(count_weekend_revenue))
+    print("amount of people on the weekend : " + str(count_weekend))
+    print("amount of people revenue : " + str(count_revenue))
+    print("total data: "+str(data.__len__()))
 
 def load_data(filename):
     """
